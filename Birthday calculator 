@@ -1,0 +1,96 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Birthday Calculator</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+  h1 {
+    font-size: 50px;
+    color: red;
+  }
+  label {
+    font-size: 27px;
+  }
+  input {
+    font-size: 25px;
+    color: black;
+    border: 3px solid red;
+    border-radius: 9px;
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+  }
+  button{
+    font-size: 24px;
+    background-color: black;
+    color: white;
+    border: 2px solid red;
+    border-radius: 9px;
+    height: 9vh;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-top:  20%;
+  }
+  button:hover{
+    background-color: red;
+    border: 2px solid black;
+  }
+  #result{
+    font-size: 27px;
+    font-family: cursive;
+    font-weight: bold;
+     border: 3px solid; /* default border width */
+  border-image: linear-gradient(to right, red 50%, black 50%) 1;
+    margin-top:  10%;
+  }
+  
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Birthday Calculator</h1>
+    <label for="birthday">Enter your birthday:</label>
+    <input type="date" id="birthday" />
+    <button onclick="calculateAge()">Calculate</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+function calculateAge() {
+  const input = document.getElementById('birthday').value;
+  if (!input) {
+    document.getElementById('result').innerText = 'Please enter your birthday!';
+    return;
+  }
+
+  const birthDate = new Date(input);
+  const today = new Date();
+
+  let age = today.getFullYear() - birthDate.getFullYear();
+  const monthDiff = today.getMonth() - birthDate.getMonth();
+  const dayDiff = today.getDate() - birthDate.getDate();
+
+  // Adjust if birthday hasn't occurred yet this year
+  if (monthDiff < 0 || (monthDiff === 0 && dayDiff < 0)) {
+    age--;
+  }
+
+  // Days left until next birthday
+  const nextBirthday = new Date(today.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+  if (nextBirthday < today) {
+    nextBirthday.setFullYear(today.getFullYear() + 1);
+  }
+  const diffTime = nextBirthday - today;
+  const daysLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  document.getElementById('result').innerText = 
+    `You are ${age} years old.\nThere are ${daysLeft} day(s) left until your next birthday!`;
+}
+
+</script>
+</body>
+</html>
